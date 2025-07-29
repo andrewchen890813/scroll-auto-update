@@ -34,7 +34,6 @@ export function Observer() {
         )}
       </div>
 
-      {/* 👇 不需要撐高頁面，用這個 ref 綁定在實際頁面下方觀察點 */}
       {hasMore && <div ref={bottomRef} className="h-1" />}
     </>
   );
