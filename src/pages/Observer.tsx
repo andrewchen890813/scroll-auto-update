@@ -9,7 +9,15 @@ export function Observer() {
   const { displayedData, hasMore, loading, loadMore } =
     useInfiniteScroll<Product>(fakeData, 4);
 
-  const bottomRef = useObserver(loadMore, hasMore, "0px", 1.0);
+  const bottomRef = useObserver(
+    () => {
+      if (hasMore && !loading) {
+        loadMore();
+      }
+    },
+    "0px",
+    1.0
+  );
 
   return (
     <>

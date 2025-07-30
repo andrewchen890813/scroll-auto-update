@@ -2,7 +2,6 @@ import { useEffect, useRef } from "react";
 
 export function useObserver(
   callback: () => void,
-  hasMore: boolean,
   rootMargin: string,
   threshold: number | number[]
 ) {
@@ -10,28 +9,23 @@ export function useObserver(
   const targetRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    //沒有更多資料
-    if (!hasMore) return;
-
     if (observerRef.current) {
       observerRef.current.disconnect();
     }
 
-    //儲存 IntersectionObserver
     observerRef.current = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && hasMore) {
+        if (entry.isIntersecting) {
           callback();
         }
       },
       {
         root: null,
-        rootMargin: rootMargin,
-        threshold: threshold,
+        rootMargin,
+        threshold,
       }
     );
 
-    //ref 綁定的 DOM 目標
     const current = targetRef.current;
     if (current) {
       observerRef.current.observe(current);
@@ -43,7 +37,7 @@ export function useObserver(
       }
       observerRef.current = null;
     };
-  }, [callback, hasMore, rootMargin, threshold]);
+  }, [callback, rootMargin, threshold]);
 
   return targetRef;
 }
