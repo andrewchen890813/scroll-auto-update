@@ -30,7 +30,9 @@ const Scroll = () => {
   //自動偵測
   useEffect(() => {
     const checkNeedMore = () => {
+      //頁面高度
       const scrollHeight = document.documentElement.scrollHeight;
+      //使用者視窗高度
       const clientHeight = window.innerHeight;
       if (scrollHeight <= clientHeight + 50 && hasMore && !loading) {
         loadMore();
@@ -41,6 +43,7 @@ const Scroll = () => {
     window.addEventListener("resize", checkNeedMore);
     return () => window.removeEventListener("resize", checkNeedMore);
   }, [displayedData, hasMore, loading, loadMore]);
+
   return (
     <div className="grid  grid-cols-2 sm:grid-cols-2 gap-4">
       {displayedData.map((item) => (
